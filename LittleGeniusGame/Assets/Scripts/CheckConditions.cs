@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class CheckConditions : MonoBehaviour
 {
-    public ACCIONESPERSONAJE accionesPersonaje;
+    public ACCIONESPERSONAJE accionesPersonajeEnTierra;
+    public ACCIONESPERSONAJE accionesPersonajeEnEspacio;
     public ACCIONESCAMARA accionesCamara;
     private bool estaCaminando;
     private bool estaCorriendo;
@@ -10,7 +11,7 @@ public class CheckConditions : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        accionesPersonaje = ACCIONESPERSONAJE.REPOSAR;
+        accionesPersonajeEnEspacio = ACCIONESPERSONAJE.FLOTAR;
         accionesCamara = ACCIONESCAMARA.REPOSAR;
         estaCaminando = false;
         estaCorriendo = false;
@@ -19,47 +20,21 @@ public class CheckConditions : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        if (Input.GetKey(KeyCode.B))
+        if ((Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0) || (Input.GetAxis("Joystick Left X") != 0 || Input.GetAxis("Joystick Left Y") != 0))
         {
-            accionesPersonaje = ACCIONESPERSONAJE.SUBIR;
-            return;
+            accionesPersonajeEnEspacio = ACCIONESPERSONAJE.VOLAR;
         }
-        
-        if (Input.GetKey(KeyCode.V))
+        else if (Input.GetKey(KeyCode.LeftShift))
         {
-            accionesPersonaje = ACCIONESPERSONAJE.BAJAR;
-            return;
+            accionesPersonajeEnEspacio = ACCIONESPERSONAJE.SUBIR;
         }
-
-        if (transform.position.y > 1)
+        else if (Input.GetKey(KeyCode.LeftControl))
         {
-            if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") > 0)
-            {
-                accionesPersonaje = ACCIONESPERSONAJE.VOLAR;
-            }
-            else
-            {
-                accionesPersonaje = ACCIONESPERSONAJE.FLOTAR;
-            }
+            accionesPersonajeEnEspacio = ACCIONESPERSONAJE.BAJAR;
         }
         else
         {
-            estaCaminando = (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0) ? true : false;
-            estaCorriendo = (Input.GetKey(KeyCode.LeftShift)) ? true : false;
-
-            if (estaCaminando && !estaCorriendo)
-            {
-                accionesPersonaje = ACCIONESPERSONAJE.CAMINAR;
-            }
-            else if (estaCorriendo && estaCaminando)
-            {
-                accionesPersonaje = ACCIONESPERSONAJE.CORRER;
-            }
-            else
-            {
-                accionesPersonaje = ACCIONESPERSONAJE.REPOSAR;
-            }
+            accionesPersonajeEnEspacio = ACCIONESPERSONAJE.FLOTAR;
         }
 
         if (Input.GetAxis("Mouse X") != 0)

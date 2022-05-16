@@ -15,7 +15,7 @@ public class CharacterManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        switch (checkConditions.accionesPersonaje)
+        switch (checkConditions.accionesPersonajeEnEspacio)
         {
             case ACCIONESPERSONAJE.REPOSAR:
                 mechanics.Reposar();
@@ -43,7 +43,6 @@ public class CharacterManager : MonoBehaviour
         switch (checkConditions.accionesCamara)
         {
             case ACCIONESCAMARA.REPOSAR:
-                
                 break;
             case ACCIONESCAMARA.GIRAR:
                 mechanics.Girar();
